@@ -5,10 +5,10 @@
 #include <cmath>
 #include <ctime>
 #include <vector>
-#include "resource1.h"
 #define WS_OVERLAPPEDWINDOW (WS_OVERLAPPED | WS_CAPTION | \
             WS_SYSMENU )
 
+#pragma region defines
 
 #define ID_EDIT_1 4001
 #define ID_EDIT_2 4002
@@ -31,22 +31,25 @@
 #define HOME 0
 #define LAGR 1
 #define NEWT 2
+
+#pragma endregion
+
 using namespace std;
 const int N = 10;
 
 
 
 // --- Описание функции главного окна
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); // Обработчик главного окна приложения.
 BOOL Line(HDC hdc, int x1, int y1, int x2, int y2);
 BOOL drawGraphic(HDC hDC);
-BOOL drawHome(HDC hDC, HWND hWnd);
-BOOL drawInfo(HDC hDC, HWND hWnd, int method);
-BOOL drawGraph(HDC hDC, HWND hWnd, int method);
-BOOL drawExample(HDC hDC, HWND hWnd, int method);
-BOOL drawExercises(HDC hDC, HWND hWnd, int method);
-VOID reset();
-VOID resetTable();
+BOOL drawHome(HDC hDC, HWND hWnd); // Отрисовка главного окна.
+BOOL drawInfo(HDC hDC, HWND hWnd, int method); // Отрисовка окна с теоретическим минимумом.
+BOOL drawGraph(HDC hDC, HWND hWnd, int method); // Отрисовка окна вычисления значения полинома
+BOOL drawExample(HDC hDC, HWND hWnd, int method); // Отрисовка окна с примером.
+BOOL drawExercises(HDC hDC, HWND hWnd, int method); // Отрисовка окна с заданиями.
+VOID reset(); // Функция удаления элементов управления и задания необходимых значений по-умолчанию
+VOID resetTable(); // Функция освобождения памяти под массив дескрипторов полей ввода для таблицы значений.
 
 
 int valCount = 5;
@@ -180,23 +183,22 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	// Адрес оконной функции
 	wc.style = CS_HREDRAW | CS_VREDRAW;	// Стиль класса 
 	wc.hInstance = hInstance;		// Экземпляр приложения
-	wc.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
-	// Пиктограмма для окон
-	wc.hCursor = LoadCursor(hInst, MAKEINTRESOURCE(IDC_CURSOR1));//Для преобразования целого числа в указатель на строку ресурса используют макрос
-																 // Курсор мыши для окон
+	//wc.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));	// Пиктограмма для окон
+	//wc.hCursor = LoadCursor(hInst, MAKEINTRESOURCE(IDC_CURSOR1)); // Курсор мыши для окон
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	// Кисть для окон
 	wc.lpszMenuName = NULL;			// Ресурс меню окон
 	wc.cbClsExtra = 0;			// Дополнительная память
 	wc.cbWndExtra = 0;			// Дополнительная память
-								// Pегистрация класса окна.
+
+	// Pегистрация класса окна.
 	RegisterClass(&wc);
 
 
 
 
-	char title[128];
-	LoadStringA(hInst, IDS_STRING1, title, sizeof(title));
+	//char titletitle[128];
+	//LoadStringA(hInst, IDS_STRING1, title, sizeof(title));
 
 																			  // Создаем главное окно приложения.
 	hWnd = CreateWindow(
@@ -513,7 +515,7 @@ BOOL drawGraphic(HDC hDC)
 	SetViewportExtEx(hDC, xView/2, -yView/2, NULL); //Определяем облась вывода
 	SetViewportOrgEx(hDC,240 + xView / 12, 60 + yView / 4, NULL); //Начало координат
 
-													   //Рисуем оси координат
+	//Рисуем оси координат
 	Line(hDC, 0, 220, 0, -220);//ось У
 	Line(hDC, -100, 0, 500, 0);//ось Х
 	MoveToEx(hDC, 0, 0, NULL); //перемещаемся в начало координат
